@@ -65,7 +65,7 @@ streamlit run app.py
 Here are 5 example queries you can try, along with their expected outputs based on the sample dataset:
 
 1. **Query**: `List 2BHK customers in Pune`
-   - **Expected Output**: Displays a DataFrame showing all customers looking for a 2BHK property. (Note: since the dataset is exclusively Pune-based, it correctly searches across all granular neighborhoods instead of incorrectly filtering for the exact string "Pune").
+   - **Expected Output**: Displays a DataFrame showing all customers looking for a 2BHK property. (it correctly searches across all granular neighborhoods instead of incorrectly filtering for the exact string "Pune").
 
 2. **Query**: `Show customers with budget above 1.5 crore`
    - **Expected Output**: If no customers match this exact criteria, it gracefully shows a warning: `⚠️ No records found matching your query.`
