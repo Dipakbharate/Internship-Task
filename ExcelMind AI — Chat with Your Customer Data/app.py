@@ -5,15 +5,14 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import os
 import io
-import re
+
 
 # LOAD ENV
 load_dotenv()
 api_key = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=api_key)
 
-model = genai.GenerativeModel("gemini-2.5-flash-lite")
-
+model = genai.GenerativeModel("gemini-2.5-flash-lite")  
 
 # PAGE CONFIG
 st.set_page_config(page_title="ExcelMind AI", layout="wide")
@@ -24,15 +23,10 @@ st.write("Upload any Excel or CSV file and ask questions in plain English.")
 
 # HELPERS
 
-ALLOWED_PATTERN = r'^(len\(.*|df(\.|\[).*)$'
-
 def safe_eval(code, df_context):
-    code = code.strip()
-    if not re.match(ALLOWED_PATTERN, code):
-        raise ValueError(f"AI generated unsafe or unrecognized code: {code}")
-    
-    # Evaluate without sandbox restrictions to allow standard functions like len()
-    return eval(code, {"df": df_context, "pd": pd, "np": np})
+    env = {"__builtins__": {}, "df": df_context, "pd": pd, "np": np, 
+           "len": len, "round": round, "sorted": sorted, "min": min, "max": max, "sum": sum}
+    return eval(code.strip(), env)
 
 def show_result(result):
     if isinstance(result, pd.DataFrame):
@@ -58,7 +52,7 @@ def download_excel(result):
 
 
 @st.cache_data(show_spinner=False)
-def summarize_answer(query, result, file_hash):
+def summarize_answer(query, result):
     if isinstance(result, (pd.DataFrame, pd.Series)):
         total_records = len(result)
         data_context = (
@@ -96,7 +90,7 @@ STRICT RULES:
 
 
 @st.cache_data(show_spinner=False)
-def ask_model_for_query(query, columns, sample_rows, unique_vals, file_hash):
+def ask_model_for_query(query, columns, sample_rows, unique_vals):
     prompt = f"""
 You are an expert pandas analyst.
 
@@ -196,7 +190,6 @@ def init_session():
         "summary_text": None,
         "eval_error": None,
         "is_empty": False,
-        "query_history": [],
     }
     for key, val in defaults.items():
         if key not in st.session_state:
@@ -214,8 +207,6 @@ uploaded_file = st.file_uploader(
 )
 
 if uploaded_file:
-    file_hash = f"{uploaded_file.name}_{uploaded_file.size}"
-
     try:
         if uploaded_file.name.endswith(".csv"):
             df = pd.read_csv(uploaded_file)
@@ -291,8 +282,7 @@ if uploaded_file:
                 query=st.session_state.current_query,
                 columns=columns,
                 sample_rows=sample_rows,
-                unique_vals=str(unique_vals),
-                file_hash=file_hash
+                unique_vals=str(unique_vals)
             )
 
             if output.upper().startswith("CLARIFY:"):
@@ -310,16 +300,9 @@ if uploaded_file:
                     else:
                         st.session_state.is_empty = False
                         st.session_state.summary_text = summarize_answer(
-                            st.session_state.current_query, result, file_hash
+                            st.session_state.current_query, result
                         )
                     st.session_state.eval_error = None
-
-                    # Save to history
-                    st.session_state.query_history.append({
-                        "query": st.session_state.current_query,
-                        "pandas_code": output,
-                        "summary": st.session_state.summary_text or "No records found."
-                    })
 
                 except Exception as e:
                     st.session_state.eval_error = str(e)
