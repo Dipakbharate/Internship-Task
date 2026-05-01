@@ -91,7 +91,7 @@ excelmind-ai/
 ├── app.py                  # Main Streamlit application
 ├── requirements.txt        # Python dependencies
 ├── .env.example            # Environment variable template
-├── sample_data.xlsx        # Sample dataset for testing
+├── sample_data.xlsx        #sample dataset given by the company
 └── README.md               # This file
 ```
  
