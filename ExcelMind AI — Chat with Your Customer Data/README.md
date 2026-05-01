@@ -68,7 +68,7 @@ Here are 5 example queries you can try, along with their expected outputs based 
    - **Expected Output**: Displays a DataFrame showing all customers looking for a 2BHK property. (it correctly searches across all granular neighborhoods instead of incorrectly filtering for the exact string "Pune").
 
 2. **Query**: `Show customers with budget above 1.5 crore`
-   - **Expected Output**: If no customers match this exact criteria, it gracefully shows a warning: `⚠️ No records found matching your query.`
+   - **Expected Output**: it may or may not return results depending on the file., it gracefully shows a warning: `⚠️ No records found matching your query.`
 
 3. **Query**: `How many customers have a budget above 90 lakhs?`
    - **Expected Output**: A single number representing the count of customers whose budget exceeds ₹9,000,000, along with a concise, professional AI summary stating the total count.
