@@ -34,7 +34,7 @@ This means answers are always grounded in real data — not AI hallucinations.
 ### 1. **Clone the repository and navigate to the project folder:**
  
 ```bash
-cd excelmind-ai
+cd "Internship-Task\ExcelMind AI — Chat with Your Customer Data"
 ```
  
 ### 2. Install Dependencies
