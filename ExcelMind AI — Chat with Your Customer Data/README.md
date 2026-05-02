@@ -34,6 +34,7 @@ This means answers are always grounded in real data — not AI hallucinations.
 ### 1. **Clone the repository and navigate to the project folder:**
  
 ```bash
+git clone https://github.com/Dipakbharate/Internship-Task.git
 cd "Internship-Task\ExcelMind AI — Chat with Your Customer Data"
 ```
  
