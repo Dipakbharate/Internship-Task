@@ -21,7 +21,7 @@ This means answers are always grounded in real data — not AI hallucinations.
 - **Empty Result Handling** — Shows a clear warning instead of returning misleading output
 - **Download Results** — Export filtered results directly as an Excel file
 - **Data Summary Dashboard** — Auto-generated stats when you upload a file
-- **Pre-configured Business Logic**:
+- **Pre-configured Business Logic** *(customizable based on company needs)*:
   - *High-intent customers*: Connected calls + Budget > ₹80 Lakhs
   - *Hot leads*: Customers with connected calls
   - *Premium customers*: Budget > ₹1.2 Crores
